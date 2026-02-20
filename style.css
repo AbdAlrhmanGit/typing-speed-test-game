@@ -1,0 +1,101 @@
+:root{
+    --main-color: #2196f3;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.game{
+    background-color: #eee;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+.game .name{
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 10px;
+}
+.game .container{
+    max-width: 700px;
+    margin: auto;
+    padding: 0 15px;
+    margin-top: 40px;
+    .message{
+        text-align: center;
+        color: darkgray;
+        font-size: 14px;
+    }
+    .start{
+        text-align: center;
+        background-color: #9E9E9E;
+        color: #fff;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 10px;
+    }
+    .the-word{
+        font-size: 60px;
+        text-align: center;
+        font-weight: bold;
+        color: var(--main-color);
+        user-select: none;
+    }
+    input{
+        width: 100%;
+        caret-color: var(--main-color);
+        display: block;
+        border: 2px solid var(--main-color);
+        height: 30px;
+        margin: 10px 0;
+        text-align: center;
+        color: var(--main-color);
+        padding: 20px;
+        font-size: 24px;
+        text-transform: capitalize;
+    }
+    input:focus{
+        outline: none;
+    }
+    .upcoming-words{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 40px;
+        text-align: center;
+        /* gap: 15px; */
+        row-gap: 5px;
+        column-gap: 10px;
+        .word{
+            color: white;
+            background-color: var(--main-color);
+            width: fit-content;
+            padding:10px 5px ;
+            border-radius: 6px;
+        }
+    }
+    .control{
+        margin-top: 10px;
+        position: relative;
+        color: darkgray;
+        .score{
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+}
+.game .finish{
+    font-size: 60px;
+    text-align: center;
+    font-weight: bold;
+    .good{
+       color: #FF5722;;
+    }
+    .bad{
+        color: red;
+    }
+}
