@@ -115,10 +115,9 @@ levelSelect.onclick = () => {
   instruWordsLength.innerHTML = words.length
   instruSecondsOnstart.innerHTML = Levelseconds + 3
 }
-// disable paste in input
-input.onpaste = () =>{
-  return false
-}
+// disable paste and drop in input
+input.onpaste = () => false;
+input.ondrop = () =>false;
 // start the game
 startBtn.onclick = () => {
   startBtn.remove();
