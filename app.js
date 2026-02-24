@@ -1,32 +1,3 @@
-/*
-  Advices
-  - Always Check The Console
-  - Take Your Time To Name The Identifiers
-  - DRY
-
-  Steps To Create The Project
-  [01] Create HTML Markup *
-  [02] Add Styling And Separate From Logic *
-  [03] Create The App Logic
-  ---- [01] Add Levels *
-  ---- [02] Show Level And Seconds *
-  ---- [03] Add Array Of Words *
-  ---- [04] ِAdd Start Game Button *
-  ---- [05] Generate Upcoming Words *
-  ---- [06] Disable Copy Word And Paste Event + Focus On Input *
-  ---- [07] Start Play Function *
-  ---- [08] Start The Time And Count Score *
-  ---- [09] Add The Error And Success Messages *
-  [04] Your Trainings To Add Features 
-  ---- [02] Choose Levels From Select Box *
-  ---- [03] Break The Logic To More Functions 
-  ---- [04] Choose Array Of Words For Every Level *
-  ---- [05] Write Game Instruction With Dynamic Values *
-  ---- [06] Add 3 Seconds For The First Word  *
-  ---- reset by enter btn
-  ---- [01] Save Score To Local Storage With Date
-  */
-
 // Array Of Words
 let EasyWords = [
   "Hello",
@@ -71,6 +42,7 @@ const lvls = {
 let selctedLevel = "Easy";
 let Levelseconds = lvls[selctedLevel];
 let words = EasyWords
+let highScore = 0
 // game elements
 let levelSelect = document.querySelector(".message select")
 let secondsSpan = document.querySelector(".message .seconds");
@@ -88,18 +60,19 @@ let instruSeconds = document.querySelector(".game-instructions ul .seconds")
 let instruWordsLength = document.querySelector(".game-instructions ul .length")
 let instruSecondsOnstart = document.querySelector(".game-instructions ul .firstSeconds")
 // setting the level properties
-secondsSpan.innerHTML = Levelseconds;
-remainingTime.innerHTML = Levelseconds;
-scoreTotal.innerHTML = words.length;
-instruSeconds.innerHTML = Levelseconds
-instruWordsLength.innerHTML = words.length
-instruSecondsOnstart.innerHTML = Levelseconds + 3
-// choose the level
-levelSelect.onclick = () => {
-  selctedLevel = levelSelect.value
-  Levelseconds = lvls[selctedLevel];
-  //  updating words list 
-  words = []
+setLvlProps()
+function setLvlProps(){
+  secondsSpan.innerHTML = Levelseconds;
+  remainingTime.innerHTML = Levelseconds;
+  scoreTotal.innerHTML = words.length;
+  instruSeconds.innerHTML = Levelseconds
+  instruWordsLength.innerHTML = words.length
+  instruSecondsOnstart.innerHTML = Levelseconds + 3
+  // setting highScore properties
+  getFormStorage()
+}
+function setWordsList(){
+    words = []
   if (levelSelect.value === "Normal"){
     words = NormalWords
   }else if (levelSelect.value === "Hard"){
@@ -107,13 +80,19 @@ levelSelect.onclick = () => {
   }else{
   words = EasyWords
   }
+}
+// choose the level
+levelSelect.onclick = () => {
+  selctedLevel = levelSelect.value
+  Levelseconds = lvls[selctedLevel];
+  //  updating words list 
+  setWordsList()
   // updating the level properties
-  secondsSpan.innerHTML = Levelseconds;
-  remainingTime.innerHTML = Levelseconds;
-  scoreTotal.innerHTML = words.length;
-  instruSeconds.innerHTML = Levelseconds
-  instruWordsLength.innerHTML = words.length
-  instruSecondsOnstart.innerHTML = Levelseconds + 3
+  setLvlProps()
+  // update high score div properties
+  getFormStorage()
+  // save the current level
+  saveTheSession()
 }
 // disable paste and drop in input
 input.onpaste = () => false;
@@ -163,6 +142,8 @@ function startPlay(index){
             span.innerHTML = `Cogratulations!!`;
             finish.appendChild(span)
             finish.appendChild(highSocreSpan)
+            // Save the new high score
+            addToStorage()
             return;
           }
           generateUpComingWords()
@@ -172,7 +153,40 @@ function startPlay(index){
           span.className = "bad";
           span.innerHTML = `GameOver`;
           finish.appendChild(span)
+          // Save the new high score
+            addToStorage()
         }
       }
     },1000)
 }
+// local storage fucntions
+function getFormStorage(){
+  if (window.localStorage.getItem(selctedLevel + "HighScore") === null){
+    document.querySelector(".high-score").style.opacity = 0
+  }else{
+    document.querySelector(".high-score").style.opacity = 1
+    document.querySelector(".h-score").innerHTML = window.localStorage.getItem(selctedLevel + "HighScore");
+    document.querySelector(".h-date").innerHTML = window.localStorage.getItem(selctedLevel + "HighScoreDate").slice(4,15);
+  }
+}
+function addToStorage(){
+  if (+scoreGot.innerHTML > highScore){
+    highScore = +scoreGot.innerHTML
+    window.localStorage.setItem(selctedLevel + "HighScore", highScore)
+    window.localStorage.setItem(selctedLevel + "HighScoreDate", new Date())
+  }
+}
+// sesstion storage functions
+function saveTheSession() {
+  window.sessionStorage.setItem("currentLevel", levelSelect.value)
+}
+function reloadTheSession(){
+  if (window.sessionStorage.getItem("currentLevel") != null) {
+    levelSelect.value = window.sessionStorage.getItem("currentLevel");
+    selctedLevel = levelSelect.value;
+    Levelseconds = lvls[selctedLevel];
+    setWordsList()
+    setLvlProps()
+  }else return;
+}
+reloadTheSession()
