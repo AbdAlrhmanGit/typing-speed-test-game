@@ -14,24 +14,25 @@
   ---- [04] ِAdd Start Game Button *
   ---- [05] Generate Upcoming Words *
   ---- [06] Disable Copy Word And Paste Event + Focus On Input *
-  ---- [07] Start Play Function
-  ---- [08] Start The Time And Count Score
-  ---- [09] Add The Error And Success Messages
-  [04] Your Trainings To Add Features
+  ---- [07] Start Play Function *
+  ---- [08] Start The Time And Count Score *
+  ---- [09] Add The Error And Success Messages *
+  [04] Your Trainings To Add Features 
+  ---- [02] Choose Levels From Select Box *
+  ---- [03] Break The Logic To More Functions 
+  ---- [04] Choose Array Of Words For Every Level *
+  ---- [05] Write Game Instruction With Dynamic Values *
+  ---- [06] Add 3 Seconds For The First Word  *
+  ---- reset by enter btn
   ---- [01] Save Score To Local Storage With Date
-  ---- [02] Choose Levels From Select Box
-  ---- [03] Break The Logic To More Functions
-  ---- [04] Choose Array Of Words For Every Level
-  ---- [05] Write Game Instruction With Dynamic Values
-  ---- [06] Add 3 Seconds For The First Word
-*/
+  */
 
 // Array Of Words
-const words = [
+let EasyWords = [
   "Hello",
-  "Programming",
+  // "Programming",    normal
   "Code",
-  "Javascript",
+  // "Javascript",     normal
   "Town",
   "Country",
   "Testing",
@@ -43,15 +44,15 @@ const words = [
   "Internet",
   "Python",
   "Scala",
-  "Destructuring",
+  // "Destructuring",  hard
   "Paradigm",
   "Styling",
   "Cascade",
-  "Documentation",
+  // "Documentation",  hard
   "Coding",
   "Funny",
   "Working",
-  "Dependencies",
+  // "Dependencies",   hard
   "Task",
   "Runner",
   "Roles",
@@ -59,17 +60,19 @@ const words = [
   "Rust",
   "Playing",
 ];
-
+let NormalWords = EasyWords.concat(["Programming", "Javascript"])
+let HardWords = EasyWords.concat(["Dependencies", "Documentation", "Destructuring"], ["Programming", "Javascript"])
 // Setting Levels
 const lvls = {
   Easy: 5,
   Normal: 3,
   Hard: 2,
 };
-let selctedLevel = "Normal";
+let selctedLevel = "Easy";
 let Levelseconds = lvls[selctedLevel];
+let words = EasyWords
 // game elements
-let lvlSpan = document.querySelector(".message .lvl");
+let levelSelect = document.querySelector(".message select")
 let secondsSpan = document.querySelector(".message .seconds");
 let startBtn = document.querySelector(".start");
 let currentWord = document.querySelector(".the-word");
@@ -79,11 +82,39 @@ let remainingTime = document.querySelector(".control .time span");
 let scoreGot = document.querySelector(".score .got");
 let scoreTotal = document.querySelector(".score .total");
 let finish = document.querySelector(".finish");
+// instructions elements 
+let instruDiv = document.querySelector(".game-instructions")
+let instruSeconds = document.querySelector(".game-instructions ul .seconds")
+let instruWordsLength = document.querySelector(".game-instructions ul .length")
+let instruSecondsOnstart = document.querySelector(".game-instructions ul .firstSeconds")
 // setting the level properties
-lvlSpan.innerHTML = selctedLevel;
 secondsSpan.innerHTML = Levelseconds;
 remainingTime.innerHTML = Levelseconds;
 scoreTotal.innerHTML = words.length;
+instruSeconds.innerHTML = Levelseconds
+instruWordsLength.innerHTML = words.length
+instruSecondsOnstart.innerHTML = Levelseconds + 3
+// choose the level
+levelSelect.onclick = () => {
+  selctedLevel = levelSelect.value
+  Levelseconds = lvls[selctedLevel];
+  //  updating words list 
+  words = []
+  if (levelSelect.value === "Normal"){
+    words = NormalWords
+  }else if (levelSelect.value === "Hard"){
+    words = HardWords
+  }else{
+  words = EasyWords
+  }
+  // updating the level properties
+  secondsSpan.innerHTML = Levelseconds;
+  remainingTime.innerHTML = Levelseconds;
+  scoreTotal.innerHTML = words.length;
+  instruSeconds.innerHTML = Levelseconds
+  instruWordsLength.innerHTML = words.length
+  instruSecondsOnstart.innerHTML = Levelseconds + 3
+}
 // disable paste in input
 input.onpaste = () =>{
   return false
@@ -91,9 +122,12 @@ input.onpaste = () =>{
 // start the game
 startBtn.onclick = () => {
   startBtn.remove();
+  instruDiv.remove()
   input.focus()
   input.value = ""
   generateUpComingWords();
+  addSecondsForFirstWord()
+  levelSelect.onclick = () => false;
 };
 function generateUpComingWords() {
   // Upcoming words
@@ -108,7 +142,9 @@ function generateUpComingWords() {
   currentWord.innerHTML = words[index]
   startPlay(index)
 }
-
+function addSecondsForFirstWord() {
+  remainingTime.innerHTML = `${Levelseconds + 3}`
+}
 function startPlay(index){
   interval = setInterval(()=>{
     remainingTime.innerHTML--

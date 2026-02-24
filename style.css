@@ -26,8 +26,22 @@
     margin-top: 40px;
     .message{
         text-align: center;
-        color: darkgray;
+        color: cadetblue;
         font-size: 14px;
+        select{
+            appearance: none;
+            width: 45px;
+            background-color: inherit;
+            color: inherit;
+            border: none;
+            outline: none;
+            text-align: center;
+            cursor: pointer;
+            transition: .2s;
+            &:hover{
+                color: var(--main-color);
+            }
+        }
     }
     .start{
         text-align: center;
@@ -80,7 +94,7 @@
     .control{
         margin-top: 10px;
         position: relative;
-        color: darkgray;
+        color: cadetblue;
         .score{
             position: absolute;
             right: 0;
@@ -97,5 +111,13 @@
     }
     .bad{
         color: red;
+    }
+}
+.game-instructions{
+    ul{
+        list-style: square;
+        padding: 10px 34px;
+        list-style: hiragana-iroha;
+        opacity: 0.5;
     }
 }
