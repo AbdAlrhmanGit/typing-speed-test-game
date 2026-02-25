@@ -1,9 +1,7 @@
 // Array Of Words
 let EasyWords = [
   "Hello",
-  // "Programming",    normal
   "Code",
-  // "Javascript",     normal
   "Town",
   "Country",
   "Testing",
@@ -15,21 +13,23 @@ let EasyWords = [
   "Internet",
   "Python",
   "Scala",
-  // "Destructuring",  hard
   "Paradigm",
   "Styling",
   "Cascade",
-  // "Documentation",  hard
   "Coding",
   "Funny",
   "Working",
-  // "Dependencies",   hard
   "Task",
   "Runner",
   "Roles",
   "Test",
   "Rust",
   "Playing",
+  // "Dependencies",   hard
+  // "Programming",    normal
+  // "Javascript",     normal
+  // "Destructuring",  hard
+  // "Documentation",  hard
 ];
 let NormalWords = EasyWords.concat(["Programming", "Javascript"])
 let HardWords = EasyWords.concat(["Dependencies", "Documentation", "Destructuring"], ["Programming", "Javascript"])
@@ -141,7 +141,7 @@ function startPlay(index){
             span.className = "good";
             span.innerHTML = `Cogratulations!!`;
             finish.appendChild(span)
-            finish.appendChild(highSocreSpan)
+            // finish.appendChild(highSocreSpan)
             // Save the new high score
             addToStorage()
             return;
