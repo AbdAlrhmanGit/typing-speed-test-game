@@ -141,7 +141,6 @@ function startPlay(index){
             span.className = "good";
             span.innerHTML = `Cogratulations!!`;
             finish.appendChild(span)
-            // finish.appendChild(highSocreSpan)
             // Save the new high score
             addToStorage()
             return;
@@ -153,12 +152,20 @@ function startPlay(index){
           span.className = "bad";
           span.innerHTML = `GameOver`;
           finish.appendChild(span)
+          // enter to reset 
+          window.onkeyup = (e)=>{
+          console.log(e.key)
+          if (e.key == "Enter"){
+            window.location.reload()
+          }
+          }
           // Save the new high score
             addToStorage()
         }
       }
     },1000)
 }
+
 // local storage fucntions
 function getFormStorage(){
   if (window.localStorage.getItem(selctedLevel + "HighScore") === null){
