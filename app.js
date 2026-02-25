@@ -97,6 +97,12 @@ levelSelect.onclick = () => {
 // disable paste and drop in input
 input.onpaste = () => false;
 input.ondrop = () =>false;
+// enter to start 
+window.onkeyup = (e)=>{
+  if (e.key == "Enter"){
+    if (document.body.contains(startBtn)) startBtn.click();
+  }
+}
 // start the game
 startBtn.onclick = () => {
   startBtn.remove();
@@ -106,13 +112,8 @@ startBtn.onclick = () => {
   generateUpComingWords();
   addSecondsForFirstWord()
   levelSelect.onclick = () => false;
+
 };
-// enter to start 
-          window.onkeyup = (e)=>{
-            if (e.key == "Enter"){
-              startBtn.click()
-            }
-          }
 function generateUpComingWords() {
   // Upcoming words
   for (i = 0; i < words.length; i++) {
@@ -160,7 +161,6 @@ function startPlay(index){
           finish.appendChild(span)
           // enter to reset 
           window.onkeyup = (e)=>{
-          console.log(e.key)
           if (e.key == "Enter"){
             window.location.reload()
           }
