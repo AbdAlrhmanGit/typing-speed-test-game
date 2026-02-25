@@ -25,9 +25,9 @@ let EasyWords = [
   "Test",
   "Rust",
   "Playing",
-  // "Dependencies",   hard
   // "Programming",    normal
   // "Javascript",     normal
+  // "Dependencies",   hard 
   // "Destructuring",  hard
   // "Documentation",  hard
 ];
@@ -107,6 +107,12 @@ startBtn.onclick = () => {
   addSecondsForFirstWord()
   levelSelect.onclick = () => false;
 };
+// enter to start 
+          window.onkeyup = (e)=>{
+            if (e.key == "Enter"){
+              startBtn.click()
+            }
+          }
 function generateUpComingWords() {
   // Upcoming words
   for (i = 0; i < words.length; i++) {
